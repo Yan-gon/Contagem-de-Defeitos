@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<!-- Metadados da pagina e recursos visuais e funcionais externos. -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Produtos Cadastrados</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<link rel="stylesheet" href="Style.css">
+</head>
+<body data-page="contagem">
+<!-- Estrutura geral da aplicacao e navegacao entre as telas. -->
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="brand-mark">Y</span>
+      <div>
+        <strong>Defeitos</strong>
+        <small>Controle de defeitos</small>
+      </div>
+    </div>
+
+    <nav class="site-nav" aria-label="Navegação principal">
+      <a href="Pagina Inicial.html" class="site-nav__link active">Contagem</a>
+      <a href="Banco de dados.html" class="site-nav__link active">Produtos</a>
+    </nav>
+  </aside>
+
+  <main class="main-panel">
+    <div class="wrap">
+      <!-- Titulo e descricao da area de produtos. -->
+      <header class="hero">
+        <div>
+          <p class="eyebrow">Cadastro e Estoque</p>
+          <h1>Produtos</h1>
+          <p class="sub">Gerencie os itens cadastrados e os códigos de barras do banco.</p>
+        </div>
+      </header>
+
+      <!-- Resumo compartilhado da contagem e do cadastro de produtos. -->
+      <div class="totals-row">
+        <div class="totals">
+          <div class="total-item"><div class="n" id="totalItens">0</div><div class="l">itens contados</div></div>
+          <div class="total-item"><div class="n" id="totalUnidades">0</div><div class="l">unidades no total</div></div>
+          <div class="total-item"><div class="n" id="totalProdutos">0</div><div class="l">produtos cadastrados</div></div>
+        </div>
+      </div>
+
+      <!-- Formulario de cadastro de produtos com codigo de barras. -->
+      <section class="page-panel" id="panel-produtos">
+        <p class="section-label">Cadastrar produto no banco</p>
+        <form class="add-form" id="productForm">
+          <div class="field">
+            <label for="prodBarcode">Código de barras</label>
+            <input type="text" id="prodBarcode" placeholder="ex: 7891000100103" autocomplete="off" inputmode="numeric" required>
+          </div>
+          <div class="field" style="grid-column: span 1;">
+            <label for="prodName">Nome do produto</label>
+            <input type="text" id="prodName" placeholder="ex: arroz 1kg" autocomplete="off" required>
+          </div>
+          <button type="submit" class="add-btn">Cadastrar</button>
+        </form>
+
+        <!-- Busca, lista de produtos cadastrados e estado vazio. -->
+        <div class="list-head">
+          <h2>Produtos cadastrados</h2>
+          <div class="search"><input type="text" id="prodSearchInput" placeholder="buscar..."></div>
+        </div>
+        <ul class="items" id="productsList"></ul>
+        <div class="empty" id="prodEmptyState" style="display:none;">
+          <strong>Nenhum produto cadastrado</strong>
+          Cadastre acima ou deixe o app cadastrar automaticamente ao ler um código novo.
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<!-- Area de notificacoes e logica JavaScript da aplicacao. -->
+<div class="toast" id="toast"></div>
+<script src="script.js"></script>
+</body>
+</html>
