@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<!-- Metadados da pagina e bibliotecas externas usadas pela contagem. -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contagem de Defeitos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<link rel="stylesheet" href="Style.css">
+</head>
+<body data-page="contagem">
+<!-- Estrutura geral da aplicacao e navegacao entre as telas. -->
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="brand-mark">Y</span>
+      <div>
+        <strong>Defeitos</strong>
+        <small>Controle de defeitos</small>
+      </div>
+    </div>
+
+    <nav class="site-nav" aria-label="Navegação principal">
+      <a href="Pagina Inicial.html" class="site-nav__link active">Contagem</a>
+      <a href="Banco de dados.html" class="site-nav__link active">Produtos</a>
+    </nav>
+  </aside>
+
+  <main class="main-panel">
+    <div class="wrap">
+      <!-- Titulo da tela e comando para exportar os dados. -->
+      <header class="hero">
+        <div>
+          <p class="eyebrow">Planilha de Contagem</p>
+          <h1>Contagem de Defeitos</h1>
+          <p class="sub">Gerador de Planilha de Defeitos</p>
+        </div>
+        <button type="button" class="export-header-btn" id="exportExcelBtn">⬇ Exportar para Excel📊</button>
+      </header>
+
+      <!-- Resumo atualizado de itens, unidades e produtos cadastrados. -->
+      <div class="totals-row">
+        <div class="totals">
+          <div class="total-item"><div class="n" id="totalItens">0</div><div class="l">itens distintos</div></div>
+          <div class="total-item"><div class="n" id="totalUnidades">0</div><div class="l">unidades no total</div></div>
+          <div class="total-item"><div class="n" id="totalProdutos">0</div><div class="l">produtos cadastrados</div></div>
+        </div>
+      </div>
+
+      <!-- Leitura de codigo de barras pela entrada manual ou camera. -->
+      <section class="page-panel" id="panel-contagem">
+    <div class="scan-box">
+      <label for="barcodeInput">Ler código de barras</label>
+      <div class="scan-row">
+        <input type="text" id="barcodeInput" placeholder="Escaneie com o leitor ou digite o código e pressione Enter" autocomplete="off" inputmode="numeric">
+        <button type="button" class="cam-btn" id="camToggleBtn">📷 Câmera</button>
+      </div>
+      <p class="scan-hint">Um leitor USB/Bluetooth físico digita o código automaticamente aqui e envia Enter — basta manter o campo em foco.</p>
+      <div id="camReader"></div>
+      <div class="cam-error" id="camError"></div>
+    </div>
+
+    <!-- Cadastro rapido quando um codigo lido ainda nao existe no banco. -->
+    <div class="register-box" id="registerBox">
+      <p>Código <span class="code-chip" id="registerCodeChip"></span> Cadastre o Produto (Digite seu SKU)</p>
+      <div class="register-row">
+        <input type="text" id="registerNameInput" placeholder="nome do produto" autocomplete="off">
+        <button type="button" id="registerConfirmBtn">Cadastrar e contar</button>
+      </div>
+      <button type="button" class="register-cancel" id="registerCancelBtn">cancelar</button>
+    </div>
+
+    <!-- Formulario para adicionar um item sem usar o leitor. -->
+    <p class="section-label">Adicionar manualmente</p>
+    <form class="add-form" id="addForm">
+      <div class="field">
+        <label for="itemName">SKU</label>
+        <input type="text" id="itemName" placeholder="ex: parafuso M6" autocomplete="off" required>
+      </div>
+      <div class="field">
+        <label for="itemQty">Qtd.</label>
+        <input type="number" id="itemQty" value="1" min="1" step="1">
+      </div>
+      <button type="submit" class="add-btn">Adicionar</button>
+    </form>
+
+    <!-- Busca, lista de itens contados e estado exibido quando ela esta vazia. -->
+    <div class="list-head">
+      <h2>Defeitos</h2>
+      <div class="search"><input type="text" id="searchInput" placeholder="buscar..."></div>
+    </div>
+    <ul class="items" id="itemsList"></ul>
+    <div class="empty" id="emptyState" style="display:none;">
+      <strong>Nenhum defeito registrado</strong>
+      Escaneie um código ou adicione o primeiro item acima.
+    </div>
+
+      <!-- Acao para limpar a contagem atual. -->
+        <div class="footer-actions"><button type="button" id="clearBtn">Zerar contagem</button></div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<!-- Area de notificacoes e logica JavaScript da aplicacao. -->
+<div class="toast" id="toast"></div>
+<script src="Script.js"></script>
+</body>
+</html>
